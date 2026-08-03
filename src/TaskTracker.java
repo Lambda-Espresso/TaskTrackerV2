@@ -1,5 +1,3 @@
-package main.java;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +10,7 @@ public class TaskTracker {
         List<TaskComponents> data = storage.load();
         TaskManager manager = new TaskManager(data);
 
-        if(args == null || args[0].equals("help")){
+        if(args.length == 0 || args[0].equals("help")){
             manager.help();
             return;
         }

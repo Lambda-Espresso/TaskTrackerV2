@@ -1,5 +1,3 @@
-package main.java;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +20,7 @@ public class TaskStorage {
         try {
             rawString = Files.readString(path);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Failed to load JSON file");
         }
         return parser.fromJson(rawString);
     }
@@ -31,16 +29,15 @@ public class TaskStorage {
         StringBuilder sb = new StringBuilder();
 
         sb.append("[");
-        int listSize = taskList.size();
         for (TaskComponents task : taskList) {
             if (!first) {
                 sb.append(",");
             }
-            sb.append("\n\t");
+            sb.append("\n");
             sb.append(parser.toJson(task));
             first = false;
         }
-        if(listSize > 0) sb.append("\n");
+        if (!taskList.isEmpty()) sb.append("\n");
         sb.append("]");
         String jsonContent = sb.toString();
         try {

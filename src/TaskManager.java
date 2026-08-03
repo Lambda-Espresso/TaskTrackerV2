@@ -1,5 +1,3 @@
-package main.java;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +23,7 @@ public class TaskManager {
         System.out.println("Delete           - 'delete [id]'");
     }
     public void addTask(String description) {
-        taskList.add(new TaskComponents(last_id, description));
+        taskList.add(new TaskComponents(++last_id, description));
         System.out.println("Task added: " + description);
     }
     public void listAllTasks(){

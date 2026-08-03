@@ -1,7 +1,5 @@
-package main.java;
-
 public enum Status {
-    TODO("todo"), IN_PROGRESS("in-progress"), DONE("done");
+    TODO("todo"), IN_PROGRESS("in_progress"), DONE("done");
 
     private final String status;
 
@@ -9,7 +7,8 @@ public enum Status {
         this.status = status;
     }
 
-    public String getStatus() {
+    @Override
+    public String toString() {
         return status;
     }
 }

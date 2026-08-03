@@ -22,19 +22,15 @@ java Task update 1 "Destroy it"
 java Task mark-in-progress 1
 java Task mark-done 1
 ```
-# Listing specific task
-```bash
-java Task list 1
-```
-# Listing all tasks
-```bash
-java Task list
-```
 # Listing tasks by status
 ```bash
 java Task list done
 java Task list todo
 java Task list in-progress
+```
+# Listing all tasks
+```bash
+java Task list
 ```
 # Deleting specific task
 ```bash

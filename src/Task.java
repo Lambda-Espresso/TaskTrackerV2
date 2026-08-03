@@ -1,4 +1,4 @@
-public class Main {
+public class Task {
     public static void main(String[] args) {
         String jsonFilePath = "task.json";
         TaskStorage storage = new TaskStorage(jsonFilePath);

@@ -6,7 +6,7 @@ public class Main {
         TaskStorage storage = new TaskStorage(jsonFilePath);
         TaskTracker task = new TaskTracker(storage);
         try {
-            task.run();
+            task.run(args);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -14,4 +14,12 @@ public class TaskComponents {
     public String currentDate(){
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     }
+
+    public TaskComponents(int id, String description, Status status, String date, String updatedDate){
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.date = date;
+        this.updatedDate = updatedDate;
+    }
 }

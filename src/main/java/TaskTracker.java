@@ -5,5 +5,9 @@ public class TaskTracker {
     TaskTracker(TaskStorage storage) {
         this.storage = storage;
     }
-    public void run() {}
+    public void run() {
+        storage.load();
+
+        storage.save();
+    }
 }

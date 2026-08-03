@@ -26,5 +26,28 @@ public class TaskStorage {
         }
         return parser.fromJson(rawString);
     }
-    public void save() {}
+    public void save(List<TaskComponents> taskList) {
+        boolean first = true;
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("[");
+        int listSize = taskList.size();
+        for (TaskComponents task : taskList) {
+            if (!first) {
+                sb.append(",");
+            }
+            sb.append("\n\t");
+            sb.append(parser.toJson(task));
+            first = false;
+        }
+        if(listSize > 0) sb.append("\n");
+        sb.append("]");
+        String jsonContent = sb.toString();
+        try {
+            Files.writeString(path, jsonContent);
+        }
+        catch (IOException e) {
+            System.out.println("Cannot locate to JSON file");
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package main.java;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,21 @@ public class JsonParser {
         }
         return previousData;
     }
-    public void toJson() {
-
+    public String toJson(TaskComponents task) {
+        return String.format("""
+                        {
+                            "id": %d,
+                            "description": "%s",
+                            "status": "%s",
+                            "createdAt": "%s",
+                            "updatedAt": "%s"
+                        }
+                        """,
+                task.getId(),
+                task.getDescription(),
+                task.getStatus(),
+                task.getCreatedDate(),
+                task.getUpdatedDate());
     }
     private List<String> splitJsonArray(String rawString) {
         List<String> chunks = new ArrayList<>();

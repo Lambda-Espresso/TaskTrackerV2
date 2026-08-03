@@ -7,7 +7,7 @@ public class TaskComponents {
     private final int id;
     private String description;
     private Status status;
-    private final String date;
+    private final String createdDate;
     private String updatedDate;
 
     public String currentDate(){
@@ -18,22 +18,31 @@ public class TaskComponents {
         this.id = id;
         this.description = description;
         this.status = Status.TODO;
-        this.date = currentDate();
-        this.updatedDate = date;
+        this.createdDate = currentDate();
+        this.updatedDate = createdDate;
     }
     TaskComponents(int id, String description, Status status, String date, String updatedDate) {
         this.id = id;
         this.description = description;
         this.status = status;
-        this.date = date;
+        this.createdDate = date;
         this.updatedDate = updatedDate;
     }
 
     public int getId(){
         return id;
     }
+    public String getDescription(){
+        return description;
+    }
     public Status getStatus(){
         return status;
+    }
+    public String getCreatedDate(){
+        return createdDate;
+    }
+    public String getUpdatedDate(){
+        return updatedDate;
     }
     public void updateDescription(String description){
         this.description = description;
@@ -54,6 +63,6 @@ public class TaskComponents {
                  - Description: %s,
                  - Status: %s,
                  - Created at: %s,
-                 - Updated at: %s""", id, description, status, date, updatedDate);
+                 - Updated at: %s""", id, description, status, createdDate, updatedDate);
     }
 }

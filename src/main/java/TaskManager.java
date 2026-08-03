@@ -6,11 +6,14 @@ import java.util.Optional;
 public class TaskManager {
     List<TaskComponents> taskList;
     int last_id;
-    JsonParser parser = new JsonParser();
 
     TaskManager(List<TaskComponents> data) {
         this.taskList = data;
         this.last_id = syncLastId(data);
+    }
+
+    public List<TaskComponents> getData(){
+        return taskList;
     }
 
     public void help(){
@@ -21,7 +24,7 @@ public class TaskManager {
         System.out.println("Mark done        - 'mark-done [id]'");
         System.out.println("Delete           - 'delete [id]'");
     }
-    public void addTask(int last_id, String description) {
+    public void addTask(String description) {
         taskList.add(new TaskComponents(last_id, description));
         System.out.println("Task added: " + description);
     }

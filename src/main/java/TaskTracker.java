@@ -9,7 +9,7 @@ public class TaskTracker {
     }
     public void run(String[] args) {
         List<TaskComponents> data = storage.load();
-        TaskManager  manager = new TaskManager();
+        TaskManager manager = new TaskManager(data);
 
         String command = args[0];
         if (command.isEmpty()) {

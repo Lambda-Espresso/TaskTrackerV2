@@ -32,7 +32,7 @@ java Task list in-progress
 ```bash
 java Task list
 ```
-# Deleting specific task
+# Deleting a task by id
 ```bash
 java Task delete 1
 ```

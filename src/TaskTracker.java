@@ -86,7 +86,7 @@ public class TaskTracker {
                         return;
                     }
                 }
-                else{
+                else {
                     int id = isInteger(args[1]);
                     if(id == -1) return;
                     manager.deleteTask(id);

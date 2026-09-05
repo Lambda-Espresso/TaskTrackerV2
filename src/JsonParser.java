@@ -1,16 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class JsonParser {
     public List<TaskComponents> fromJson(String rawString) {
-        String jsonString = rawString.strip();
-        List<String> jsonTokens = splitJson(jsonString);
-
-        List<TaskComponents> previousData = new ArrayList<>();
-        for (String jsonToken : jsonTokens) {
-            previousData.add(taskComponentsParse(jsonToken));
-        }
-        return previousData;
+        return splitJson(rawString);
     }
     public String toJson(TaskComponents task) {
         return String.format("{\"id\": %d, \"description\": \"%s\", \"status\": \"%s\", \"createdAt\": \"%s\", \"updatedAt\": \"%s\"}",
@@ -20,35 +12,66 @@ public class JsonParser {
                 task.getCreatedDate(),
                 task.getUpdatedDate());
     }
-    private List<String> splitJson(String rawString) {
-        if (rawString.equals("[]") || rawString.isEmpty()) return new ArrayList<>();
-        List<String> jsonTokens = new ArrayList<>();
-        String[] jsonComponents = rawString
-                .replace("[","")
-                .replace("]","")
-                .split("},");
-        for (String json : jsonComponents){
-            if (!json.endsWith("}")){
-                json = json + "}";
+    private List<TaskComponents> splitJson(String rawString) {
+        Deque<String> jsonToken = new ArrayDeque<>();
+        List<TaskComponents> previousData = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        boolean isEscapeSequence = false;
+        boolean isValue = false;
+        boolean inQuote = false;
+        for (char c : rawString.toCharArray()) {
+            if (isValue) {
+                if (c == '"') {
+                    inQuote = !inQuote;
+                    continue;
+                }
+                if (inQuote) {
+                    if (c == '\\') {
+                        isEscapeSequence = true;
+                        continue;
+                    }
+                    if (isEscapeSequence) {
+                        isEscapeSequence = false;
+                        continue;
+                    }
+                    sb.append(c);
+                } else if (c >= '0' && c <= '9') {
+                    sb.append(c);
+                } else {
+                    if (c == ',' || c == '}') {
+                        isValue = false;
+                        jsonToken.add(sb.toString());
+                        sb.setLength(0);
+                        if (c == '}') previousData.add(taskComponentsParse(jsonToken));
+                    }
+                }
+            } else {
+                if (c == ':') {
+                    isValue = true;
+                }
             }
-            jsonTokens.add(json);
         }
-        return jsonTokens;
+        return previousData;
     }
-    private TaskComponents taskComponentsParse(String jsonToken) {
-        jsonToken = jsonToken
-                .replace("{","")
-                .replace("}","")
-                .replace("\"","");
-        String[] taskComponents = jsonToken.split(",");
-        String idString = taskComponents[0].split(":")[1].strip();
-        String description = taskComponents[1].split(":", 2)[1].strip();
-        String statusString = taskComponents[2].split(":")[1].strip();
-        String createdAtString = taskComponents[3].split(":", 2)[1].strip();
-        String updatedAtString = taskComponents[4].split(":", 2)[1].strip();
-        int qualifiedId = 0;
+    private TaskComponents taskComponentsParse(Deque<String> jsonToken) {
+        String idString = "";
+        String description = "";
+        String statusString = "";
+        String createdAtString = "";
+        String updatedAtString = "";
+        try {
+            idString = jsonToken.remove();
+            description = jsonToken.remove();
+            statusString = jsonToken.remove();
+            createdAtString = jsonToken.remove();
+            updatedAtString = jsonToken.remove();
+        } catch (NoSuchElementException e) {
+            System.out.println("Failed to load JSON file");
+            System.out.println("Missing data");
+        }
+        int validId = 0;
         try{
-            qualifiedId = Integer.parseInt(idString);
+            validId = Integer.parseInt(idString);
         }
         catch (NumberFormatException e) {
             System.out.println("Failed to load JSON file");
@@ -61,7 +84,7 @@ public class JsonParser {
             System.out.println("Unknown status:" + statusString);
             System.exit(1);
         }
-        Status qualifiedStatus = Status.valueOf(statusType);
-        return new TaskComponents(qualifiedId, description, qualifiedStatus, createdAtString, updatedAtString);
+        Status validStatus = Status.valueOf(statusType);
+        return new TaskComponents(validId, description, validStatus, createdAtString, updatedAtString);
     }
 }

@@ -21,6 +21,7 @@ public class TaskStorage {
             rawString = Files.readString(path);
         } catch (IOException e) {
             System.out.println("Failed to load JSON file");
+            System.out.println("Cannot read the file");
         }
         return parser.fromJson(rawString);
     }
@@ -45,6 +46,7 @@ public class TaskStorage {
         }
         catch (IOException e) {
             System.out.println("Cannot locate to JSON file");
+            System.out.println("Cannot write the file");
         }
     }
 }

@@ -7,7 +7,7 @@ git clone https://github.com/LambdaEspresso/TaskTrackerV2 && cd TaskTrackerV2/sr
 ```
 Compile the source code:
 ```bash
-javac Task.java
+javac *.java
 ```
 # Adding a new task
 ```bash
